@@ -12,7 +12,7 @@ namespace PerformanceConsole
     {
         static void Main(string[] args)
         {
-            var summary = BenchmarkRunner.Run<Exceptions>();
+            var summary = BenchmarkRunner.Run<Loops>();
         }
     }
 
@@ -167,7 +167,7 @@ namespace PerformanceConsole
 
     public class Exceptions
     {
-        private const int N = 1000000;
+        private const int N = 100000;
 
         [Benchmark]
         public void SimpleAddition()
@@ -194,6 +194,82 @@ namespace PerformanceConsole
                 {
 
                 }
+            }
+        }
+    }
+
+    public class Loops
+    {
+        private const int N = 1000000;
+        ArrayList arraylist= new ArrayList(N);
+        List<int> list= new List<int>(N);
+        int[] array= new int[N];
+
+        public Loops()
+        {
+            var random= new Random();
+            for (int i = 0; i < N; i++)
+            {
+                int number = random.Next(256);
+                arraylist.Add(number);
+                list.Add(number);
+                array[i] = number;
+            }
+        }
+
+
+        [Benchmark]
+        public void ArrayListFor()
+        {
+            for (int i = 0; i < N; i++)
+            {
+                var a = arraylist[i];
+            }
+        }
+
+        [Benchmark]
+        public void ArrayListForeach()
+        {
+            foreach (var i in arraylist)
+            {
+                var a = arraylist[(int)i];
+            }
+        }
+
+        [Benchmark]
+        public void ListFor()
+        {
+            for (int i = 0; i < N; i++)
+            {
+                var a = list[i];
+            }
+        }
+
+        [Benchmark]
+        public void ListForeach()
+        {
+            foreach (var i in list)
+            {
+                var a = list[i];
+            }
+        }
+
+
+        [Benchmark]
+        public void ArrayFor()
+        {
+            for (int i = 0; i < N; i++)
+            {
+                var a = array[i];
+            }
+        }
+
+        [Benchmark]
+        public void ArrayForeach()
+        {
+            foreach (var i in list)
+            {
+                var a = array[i];
             }
         }
     }
