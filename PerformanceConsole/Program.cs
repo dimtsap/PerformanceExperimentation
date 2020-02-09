@@ -12,7 +12,7 @@ namespace PerformanceConsole
     {
         static void Main(string[] args)
         {
-            var summary = BenchmarkRunner.Run<FastArrays>();
+            var summary = BenchmarkRunner.Run<Exceptions>();
         }
     }
 
@@ -165,4 +165,36 @@ namespace PerformanceConsole
         }
     }
 
+    public class Exceptions
+    {
+        private const int N = 1000000;
+
+        [Benchmark]
+        public void SimpleAddition()
+        {
+            int count = 0;
+            for (int i = 0; i < N; i++)
+            {
+                count++;
+            }
+        }
+
+        [Benchmark]
+        public void AdditionWithException()
+        {
+            int count = 0;
+            for (int i = 0; i < N; i++)
+            {
+                try
+                {
+                    count++;
+                    throw new InvalidOperationException();
+                }
+                catch (InvalidOperationException)
+                {
+
+                }
+            }
+        }
+    }
 }
