@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Security.Cryptography;
 using System.Text;
 using BenchmarkDotNet.Attributes;
@@ -10,7 +12,7 @@ namespace PerformanceConsole
     {
         static void Main(string[] args)
         {
-            var summary = BenchmarkRunner.Run<StringConcatenation>();
+            var summary = BenchmarkRunner.Run<Collections>();
         }
     }
 
@@ -83,6 +85,41 @@ namespace PerformanceConsole
             }
 
             var s = sb.ToString();
+        }
+    }
+
+    public class Collections
+    {
+        private const int N = 10000;
+
+        [Benchmark]
+        public void MeasureArrayList()
+        {
+            ArrayList list= new ArrayList();
+            for (int i = 0; i < N; i++)
+            {
+                list.Add(i);
+            }
+        }
+
+        [Benchmark]
+        public void MeasureGenericList()
+        {
+            List<int> list=new List<int>();
+            for (int i = 0; i < N; i++)
+            {
+                list.Add(i);
+            }
+        }
+
+        [Benchmark]
+        public void MeasureIntegerArray()
+        {
+            int[] list = new int[N];
+            for (int i = 0; i < N; i++)
+            {
+                list[i] = i;
+            }
         }
     }
 }
