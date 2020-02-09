@@ -12,7 +12,7 @@ namespace PerformanceConsole
     {
         static void Main(string[] args)
         {
-            var summary = BenchmarkRunner.Run<Collections>();
+            var summary = BenchmarkRunner.Run<FastArrays>();
         }
     }
 
@@ -122,4 +122,47 @@ namespace PerformanceConsole
             }
         }
     }
+
+    public class FastArrays
+    {
+        private const int N = 10000;
+
+        [Benchmark]
+        public void MeasureArray1D()
+        {
+            var array = new int[N*N];
+            for (int i = 0; i < N*N; i++)
+            {
+                array[i] = 1;
+            }
+        }
+
+        [Benchmark]
+        public void MeasureArray2D()
+        {
+            var array = new int[N, N];
+            for (int i = 0; i < N; i++)
+            {
+                for (int j = 0; j < N; j++)
+                {
+                    array[i, j] = 1;
+                }
+            }
+        }
+
+        [Benchmark]
+        public void MeasureArrayJagged()
+        {
+            var array = new int[N][];
+            for (int i = 0; i < N; i++)
+            {
+                array[i]= new int[N];
+                for (int j = 0; j < N; j++)
+                {
+                    array[i][j] = 1;
+                }
+            }
+        }
+    }
+
 }
