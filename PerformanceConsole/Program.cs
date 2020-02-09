@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Security.Cryptography;
+using System.Text;
 using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Running;
 
@@ -9,7 +10,7 @@ namespace PerformanceConsole
     {
         static void Main(string[] args)
         {
-            var summary = BenchmarkRunner.Run<BoxingUnboxing>();
+            var summary = BenchmarkRunner.Run<StringConcatenation>();
         }
     }
 
@@ -55,6 +56,33 @@ namespace PerformanceConsole
             {
                 a = (int)a + 1;
             }
+        }
+    }
+
+    public class StringConcatenation
+    {
+        private const int N = 10000;
+
+        [Benchmark]
+        public void StringAddition()
+        {
+            var s = string.Empty;
+            for (int i = 0; i < N; i++)
+            {
+                s = s + "a";
+            }
+        }
+
+        [Benchmark]
+        public void StringBuilder()
+        {
+            var sb=new StringBuilder();
+            for (int i = 0; i < N; i++)
+            {
+                sb.Append("a");
+            }
+
+            var s = sb.ToString();
         }
     }
 }
